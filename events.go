@@ -2,7 +2,13 @@ package joe
 
 // The InitEvent is the first event that is handled by the Brain after the Bot
 // is started via Bot.Run().
-type InitEvent struct{}
+type InitEvent struct {
+	adapter Adapter
+}
+
+func (evt *InitEvent) Adapter() Adapter {
+	return evt.adapter
+}
 
 // The ShutdownEvent is the last event that is handled by the Brain before it
 // stops handling any events after the bot context is done.
@@ -14,6 +20,7 @@ type ReceiveMessageEvent struct {
 	Text     string // The message text.
 	AuthorID string // A string identifying the author of the message on the adapter.
 	Channel  string // The channel over which the message was received.
+	ID       string // The ID of the message, identifying it at least uniquely within the Channel
 
 	// A message may optionally also contain additional information that was
 	// received by the Adapter (e.g. with the slack adapter this may be the

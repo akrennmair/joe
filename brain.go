@@ -184,8 +184,6 @@ func (b *Brain) HandleEvents() {
 	var shutdown shutdownRequest // set when Brain.Shutdown() is called
 
 	atomic.StoreInt32(&b.handlingEvents, 1)
-	b.handleEvent(ctx, Event{Data: InitEvent{}})
-
 	for {
 		select {
 		case evt, ok := <-b.eventsLoop:

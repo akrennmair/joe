@@ -201,6 +201,7 @@ func (b *Bot) Run() error {
 	}()
 
 	b.Logger.Info("Bot initialized and ready to operate", zap.String("name", b.Name))
+	b.Brain.Emit(InitEvent{adapter: b.Adapter})
 	b.Brain.HandleEvents()
 
 	b.Logger.Info("Bot is shutting down", zap.String("name", b.Name))
@@ -279,6 +280,11 @@ func (b *Bot) RespondRegex(expr string, fun func(Message) error) {
 			adapter:  b.Adapter,
 		})
 	})
+}
+
+// RegisterHandler is a convenient shortcut to call Brain.RegisterHandler().
+func (b *Bot) RegisterHandler(fun interface{}) {
+	b.Brain.RegisterHandler(fun)
 }
 
 // Say is a helper function to makes the Bot output the message via its Adapter

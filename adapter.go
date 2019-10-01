@@ -146,6 +146,10 @@ func (a *CLIAdapter) Send(text, channel string) error {
 	return a.print(text + "\n")
 }
 
+func (a *CLIAdapter) React(reaction string, msg Message) error {
+	return a.print(reaction + "\n")
+}
+
 // Close makes the CLIAdapter stop emitting any new events or printing any output.
 // Calling this function more than once will result in an error.
 func (a *CLIAdapter) Close() error {
