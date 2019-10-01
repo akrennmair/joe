@@ -7,6 +7,7 @@ import (
 	"os"
 	"sync"
 
+	"github.com/go-joe/joe/reactions"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 )
@@ -22,6 +23,10 @@ type Adapter interface {
 	RegisterAt(*Brain)
 	Send(text, channel string) error
 	Close() error
+}
+
+type ReactionAwareAdapter interface {
+	React(reactions.Reaction, Message) error
 }
 
 // The CLIAdapter is the default Adapter implementation that the bot uses if no

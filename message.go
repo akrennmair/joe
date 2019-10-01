@@ -3,6 +3,8 @@ package joe
 import (
 	"context"
 	"fmt"
+
+	"github.com/go-joe/joe/reactions"
 )
 
 // A Message is automatically created from a ReceiveMessageEvent and then passed
@@ -35,4 +37,13 @@ func (msg *Message) RespondE(text string, args ...interface{}) error {
 	}
 
 	return msg.adapter.Send(text, msg.Channel)
+}
+
+func (msg *Message) React(reaction reactions.Reaction) (ok bool, err error) {
+	adapter, ok := msg.adapter.(ReactionAwareAdapter)
+	if !ok {
+		return false, nil
+	}
+
+	return true, adapter.React(reaction, *msg)
 }
